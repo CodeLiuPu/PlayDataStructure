@@ -6,11 +6,11 @@ package com.update.list;
  * desc   :
  */
 public class LinkedList<E> {
-    private Node head;
+    private Node dummyHead;
     private int size;
 
     public LinkedList() {
-        head = null;
+        dummyHead = new Node();
         size = 0;
     }
 
@@ -22,29 +22,21 @@ public class LinkedList<E> {
         return size == 0;
     }
 
-    public void addFirst(E e) {
-//        Node node = new Node(e);
-//        node.next = head;
-//        head = node;
+    public void add(int index, E e) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("add fail. legal index.");
+        }
 
-        head = new Node(e, head);
+        Node prev = dummyHead;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+        prev.next = new Node(e, prev.next);
         size++;
     }
 
-    public void add(int index, E e) {
-        if (index < 0 || index > size) {
-            throw new IllegalArgumentException("add fail. legal index");
-        }
-        if (index == 0) {
-            addFirst(e);
-        } else {
-            Node prev = head;
-            for (int i = 0; i < index - 1; i++) {
-                prev = prev.next;
-            }
-            prev.next = new Node(e, prev.next);
-            size++;
-        }
+    public void addFirst(E e) {
+        add(0, e);
     }
 
     public void addLast(E e) {
