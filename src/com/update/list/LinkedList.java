@@ -24,7 +24,7 @@ public class LinkedList<E> {
 
     public void add(int index, E e) {
         if (index < 0 || index > size) {
-            throw new IllegalArgumentException("add fail. legal index.");
+            throw new IllegalArgumentException("add fail. Illegal index.");
         }
 
         Node prev = dummyHead;
@@ -41,6 +41,25 @@ public class LinkedList<E> {
 
     public void addLast(E e) {
         add(size, e);
+    }
+
+    public E get(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("get fail. Illegal index.");
+        }
+        Node curr = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
+        }
+        return curr.e;
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size - 1);
     }
 
     private class Node {

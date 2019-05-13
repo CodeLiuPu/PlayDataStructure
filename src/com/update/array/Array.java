@@ -1,6 +1,5 @@
 package com.update.array;
 
-import org.omg.CORBA.Object;
 
 /**
  * @author : liupu.

@@ -1,6 +1,5 @@
 package com.update.queue;
 
-import org.omg.CORBA.Object;
 
 /**
  * @author : liupu
