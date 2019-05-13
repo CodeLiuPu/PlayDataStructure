@@ -1,5 +1,7 @@
 package com.update.array;
 
+import org.omg.CORBA.Object;
+
 /**
  * @author : liupu.
  * date : 2019/05/11
@@ -39,12 +41,13 @@ public class Array<E> {
     }
 
     public void add(int index, E e) {
-        if (size == data.length) {
-            throw new IllegalArgumentException("add fail. Array is full.");
-        }
 
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("add fail. Require index >= 0 & index <= size");
+        }
+
+        if (size == data.length) {
+            resize(data.length * 2);
         }
 
         for (int i = size - 1; i >= index; i--) {
@@ -53,7 +56,6 @@ public class Array<E> {
 
         data[index] = e;
         size++;
-
     }
 
     public E get(int index) {
@@ -97,6 +99,13 @@ public class Array<E> {
             data[i - 1] = data[i];
         }
         size--;
+        data[size] = null;
+
+        int halfLength = data.length / 2;
+
+        if (size == halfLength && halfLength >= 10) {
+            resize(halfLength);
+        }
         return ret;
     }
 
@@ -113,6 +122,14 @@ public class Array<E> {
         if (-1 != index) {
             remove(index);
         }
+    }
+
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity];
+        for (int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
     }
 
     @Override
