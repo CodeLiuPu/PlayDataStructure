@@ -58,6 +58,14 @@ public class Array<E> {
         size++;
     }
 
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size - 1);
+    }
+
     public E get(int index) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("get fail. Require index >= 0 & index <= size");
