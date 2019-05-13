@@ -3,7 +3,7 @@ package com.update.stack;
 import com.update.array.Array;
 
 /**
- * author : liupu
+ * @author : liupu
  * date   : 2019/5/13
  * desc   :
  */

@@ -1,7 +1,7 @@
 package com.update.queue;
 
 /**
- * author : liupu
+ * @author : liupu
  * date   : 2019/5/13
  * desc   :
  */
