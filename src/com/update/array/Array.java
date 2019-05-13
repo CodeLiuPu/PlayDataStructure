@@ -5,8 +5,8 @@ package com.update.array;
  * date : 2019/05/11
  * desc : 自定义Array
  */
-public class Array {
-    private int[] data;
+public class Array<E> {
+    private E[] data;
     private int size;
 
     public Array() {
@@ -14,7 +14,7 @@ public class Array {
     }
 
     public Array(int capacity) {
-        data = new int[capacity];
+        data = (E[]) new Object[capacity];
         size = 0;
     }
 
@@ -30,15 +30,15 @@ public class Array {
         return size == 0;
     }
 
-    public void addFirst(int e) {
+    public void addFirst(E e) {
         add(0, e);
     }
 
-    public void addLast(int e) {
+    public void addLast(E e) {
         add(size, e);
     }
 
-    public void add(int index, int e) {
+    public void add(int index, E e) {
         if (size == data.length) {
             throw new IllegalArgumentException("add fail. Array is full.");
         }
@@ -56,21 +56,21 @@ public class Array {
 
     }
 
-    public int get(int index) {
+    public E get(int index) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("get fail. Require index >= 0 & index <= size");
         }
         return data[index];
     }
 
-    public void set(int index, int e) {
+    public void set(int index, E e) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("set fail. Require index >= 0 & index <= size");
         }
         data[index] = e;
     }
 
-    public boolean contains(int e) {
+    public boolean contains(E e) {
         for (int i = 0; i < data.length; i++) {
             if (data[i] == e) {
                 return true;
@@ -79,7 +79,7 @@ public class Array {
         return false;
     }
 
-    public int find(int e) {
+    public int find(E e) {
         for (int i = 0; i < data.length; i++) {
             if (data[i] == e) {
                 return i;
@@ -88,11 +88,11 @@ public class Array {
         return -1;
     }
 
-    public int remove(int index) {
+    public E remove(int index) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("remove fail. Require index >= 0 & index <= size");
         }
-        int ret = data[index];
+        E ret = data[index];
         for (int i = index + 1; i < size; i++) {
             data[i - 1] = data[i];
         }
@@ -100,15 +100,15 @@ public class Array {
         return ret;
     }
 
-    public int removeFirst() {
+    public E removeFirst() {
         return remove(0);
     }
 
-    public int removeLast() {
+    public E removeLast() {
         return remove(size - 1);
     }
 
-    public void removeElement(int e) {
+    public void removeElement(E e) {
         int index = find(e);
         if (-1 != index) {
             remove(index);
