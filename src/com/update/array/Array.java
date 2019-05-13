@@ -56,14 +56,28 @@ public class Array {
 
     }
 
+    public int get(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("get fail. Require index >= 0 & index <= size");
+        }
+        return data[index];
+    }
+
+    public void set(int index, int e) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("set fail. Require index >= 0 & index <= size");
+        }
+        data[index] = e;
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        res.append(String.format("Array; size = %d , capacity = %d\n",size,data.length));
+        res.append(String.format("Array: size = %d , capacity = %d\n", size, data.length));
         res.append("[");
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             res.append(data[i]);
-            if (i!= size-1){
+            if (i != size - 1) {
                 res.append(", ");
             }
         }
