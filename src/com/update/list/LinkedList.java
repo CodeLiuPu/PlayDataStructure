@@ -84,6 +84,18 @@ public class LinkedList<E> {
         return false;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        Node curr = dummyHead.next;
+        while (curr != null) {
+            res.append(curr.e + "->");
+            curr = curr.next;
+        }
+        res.append("NULL");
+        return res.toString();
+    }
+
     private class Node {
         public E e;
         public Node next;
