@@ -62,6 +62,28 @@ public class LinkedList<E> {
         return get(size - 1);
     }
 
+    public void set(int index, E e) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("get fail. Illegal index.");
+        }
+        Node curr = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
+        }
+        curr.e = e;
+    }
+
+    public boolean contains(E e) {
+        Node curr = dummyHead.next;
+        while (curr != null) {
+            if (curr.e.equals(e)) {
+                return true;
+            }
+            curr = curr.next;
+        }
+        return false;
+    }
+
     private class Node {
         public E e;
         public Node next;
