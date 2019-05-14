@@ -64,7 +64,7 @@ public class LinkedList<E> {
 
     public void set(int index, E e) {
         if (index < 0 || index > size) {
-            throw new IllegalArgumentException("get fail. Illegal index.");
+            throw new IllegalArgumentException("set fail. Illegal index.");
         }
         Node curr = dummyHead.next;
         for (int i = 0; i < index; i++) {
@@ -82,6 +82,43 @@ public class LinkedList<E> {
             curr = curr.next;
         }
         return false;
+    }
+
+    public E remove(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("remove fail. Illegal index.");
+        }
+        Node curr = dummyHead;
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
+        }
+        Node node = curr.next;
+        curr.next = node;
+        node.next = null;
+//        curr.next = curr.next.next;
+        size--;
+        return node.e;
+    }
+
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    public void removeElement(E e) {
+        Node curr = dummyHead;
+        while (curr.next != null) {
+            if (curr.next.e.equals(e)) {
+                Node node = curr.next;
+                curr.next = node;
+                node.next = null;
+                size--;
+                break;
+            }
+        }
     }
 
     @Override
