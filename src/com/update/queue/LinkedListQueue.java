@@ -24,17 +24,49 @@ public class LinkedListQueue<E> implements Queue<E> {
 
     @Override
     public void enqueue(E e) {
-
+        if (null == tail) {
+            tail = new Node(e);
+            head = tail;
+        } else {
+            tail.next = new Node(e);
+            tail = tail.next;
+        }
+        size++;
     }
 
     @Override
     public E dequeue() {
-        return null;
+        if (isEmpty()) {
+            throw new IllegalArgumentException("Cannot dequeue from an empty queue.");
+        }
+        Node node = head;
+        head = head.next;
+        node.next = null;
+        if (head == null) {
+            tail = null;
+        }
+        size--;
+        return node.e;
     }
 
     @Override
     public E getFront() {
-        return null;
+        if (isEmpty())
+            throw new IllegalArgumentException("Queue is empty.");
+        return head.e;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append("Queue: front ");
+        Node curr = head;
+        while (curr != null) {
+            res.append(curr.e + "->");
+            curr = curr.next;
+        }
+        res.append("NULL tail.");
+        return res.toString();
     }
 
     private class Node {
