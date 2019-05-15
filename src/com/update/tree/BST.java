@@ -4,6 +4,9 @@ package com.update.tree;
  * @author : liupu
  * date   : 2019/5/15
  * desc   : Binary-Search-Tree
+ * 一棵二叉树
+ * 每个叶子节点都含有一个Comparable的键
+ * 每一个节点 大于左子树的任意节点 小于右子树的任意节点
  */
 public class BST<E extends Comparable<E>> {
     private Node root;
