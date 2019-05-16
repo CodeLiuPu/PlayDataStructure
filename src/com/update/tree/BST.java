@@ -35,7 +35,7 @@ public class BST<E extends Comparable<E>> {
     }
 
     private void add(Node node, E e) {
-        if (e.equals(node.e)) {
+        if (e.compareTo(node.e) == 0) {
             // 元素已存在
             return;
         } else if (e.compareTo(node.e) < 0) {
@@ -59,6 +59,24 @@ public class BST<E extends Comparable<E>> {
             } else { // 右子节点 不为空 则继续add
                 add(node.right, e);
             }
+        }
+    }
+
+    public boolean contains(E e) {
+        return contains(root, e);
+    }
+
+    private boolean contains(Node node, E e) {
+        if (node == null) {
+            return false;
+        }
+        if (e.compareTo(node.e) == 0) {
+            // 元素存在
+            return true;
+        } else if (e.compareTo(node.e) < 0) {
+            return contains(node.left,e);
+        } else {
+            return contains(node.right,e);
         }
     }
 
