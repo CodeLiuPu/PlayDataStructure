@@ -35,28 +35,23 @@ public class BST<E extends Comparable<E>> {
     }
 
     private void add(Node node, E e) {
-        if (e.compareTo(node.e) == 0) {
-            // 元素已存在
+        int compareResult = e.compareTo(node.e);
+        if (compareResult == 0) {
             return;
-        } else if (e.compareTo(node.e) < 0) {
-            // 元素 小于 该节点
+        } else if (compareResult < 0) {
             if (node.left == null) {
-                //  左子节点 为null 添加
                 node.left = new Node(e);
                 size++;
                 return;
             } else {
-                // 左子节点 不为空 则继续add
                 add(node.left, e);
             }
-        } else if (e.compareTo(node.e) > 0) {
-            // 元素 大于 该节点
+        } else {
             if (node.right == null) {
-                // 右子节点 为null 添加
                 node.right = new Node(e);
                 size++;
                 return;
-            } else { // 右子节点 不为空 则继续add
+            } else {
                 add(node.right, e);
             }
         }
@@ -70,13 +65,13 @@ public class BST<E extends Comparable<E>> {
         if (node == null) {
             return false;
         }
-        if (e.compareTo(node.e) == 0) {
-            // 元素存在
+        int compareResult = e.compareTo(node.e);
+        if (compareResult == 0) {
             return true;
-        } else if (e.compareTo(node.e) < 0) {
-            return contains(node.left,e);
+        } else if (compareResult < 0) {
+            return contains(node.left, e);
         } else {
-            return contains(node.right,e);
+            return contains(node.right, e);
         }
     }
 
