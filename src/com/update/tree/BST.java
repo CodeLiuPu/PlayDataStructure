@@ -1,5 +1,7 @@
 package com.update.tree;
 
+import java.util.Stack;
+
 /**
  * @author : liupu
  * date   : 2019/5/15
@@ -121,6 +123,29 @@ public class BST<E extends Comparable<E>> {
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node.e);
+    }
+
+    /**
+     * 前序遍历 非递归版
+     */
+    public void preOrderNR() {
+        if (root == null) {
+            return;
+        }
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node curr = stack.pop();
+            System.out.println(curr.e);
+            Node right = curr.right;
+            Node left = curr.left;
+            if (right != null) {
+                stack.push(right);
+            }
+            if (left != null) {
+                stack.push(left);
+            }
+        }
     }
 
     @Override
