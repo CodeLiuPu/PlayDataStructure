@@ -107,6 +107,22 @@ public class BST<E extends Comparable<E>> {
         preOrder(node.right);
     }
 
+    /**
+     * 后序遍历 根节点 在最后输出
+     */
+    public void postOrder() {
+        postOrder(root);
+    }
+
+    private void postOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+        preOrder(node.left);
+        preOrder(node.right);
+        System.out.println(node.e);
+    }
+
     private class Node {
         public E e;
         public Node left;
