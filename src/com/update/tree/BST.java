@@ -1,5 +1,7 @@
 package com.update.tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -144,6 +146,29 @@ public class BST<E extends Comparable<E>> {
             }
             if (left != null) {
                 stack.push(left);
+            }
+        }
+    }
+
+    /**
+     * 层序遍历
+     */
+    public void levelOrder() {
+        if (root == null) {
+            return;
+        }
+        Queue<Node> queue = new LinkedList();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            System.out.println(node.e);
+            Node right = node.right;
+            Node left = node.left;
+            if (left != null) {
+                queue.add(left);
+            }
+            if (right != null) {
+                queue.add(right);
             }
         }
     }
