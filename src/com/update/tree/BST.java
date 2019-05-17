@@ -173,6 +173,40 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * 获取最小元素
+     */
+    public E minimum() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return minimum(root);
+    }
+
+    private E minimum(Node node) {
+        if (node.left == null) {
+            return node.e;
+        }
+        return minimum(node.left);
+    }
+
+    /**
+     * 获取最小元素
+     */
+    public E maximum() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return maximum(root);
+    }
+
+    private E maximum(Node node) {
+       if (node.right == null){
+           return node.e;
+       }
+        return maximum(node.right);
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
