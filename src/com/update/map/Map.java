@@ -6,15 +6,18 @@ package com.update.map;
  * desc :
  */
 public interface Map<K, V> {
-    void add(K k, V v);
+    /**
+     * key 要求唯一
+     */
+    void add(K key, V value);
 
-    void remove(K k);
+    void remove(K key);
 
-    boolean comtains(K k);
+    boolean contains(K key);
 
-    V get(K k);
+    V get(K key);
 
-    void set(K k, V v);
+    void set(K key, V newVaule);
 
     int getSize();
 
