@@ -17,9 +17,15 @@ public class LinkedListMap<K, V> implements Map<K, V> {
 
     @Override
     public void add(K key, V value) {
-//        if (!contains(key)) {
-//
-//        }
+        Node node = getNode(key);
+        if (node == null) {
+            // 不存在 就直接添加
+            dummyHead.next = new Node(key, value, dummyHead.next);
+            size++;
+        } else {
+            // 存在就替换值
+            node.value = value;
+        }
     }
 
     @Override
@@ -41,9 +47,11 @@ public class LinkedListMap<K, V> implements Map<K, V> {
     @Override
     public void set(K key, V newVaule) {
         Node node = getNode(key);
-        if (node != null) {
-            node.value = newVaule;
+        if (node == null) {
+            throw new IllegalArgumentException(key + " does not exist!");
         }
+
+        node.value = newVaule;
     }
 
     @Override
