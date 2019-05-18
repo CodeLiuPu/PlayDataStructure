@@ -180,12 +180,12 @@ public class BST<E extends Comparable<E>> {
         if (size == 0) {
             throw new IllegalArgumentException("BST is empty");
         }
-        return minimum(root);
+        return minimum(root).e;
     }
 
-    private E minimum(Node node) {
+    private Node minimum(Node node) {
         if (node.left == null) {
-            return node.e;
+            return node;
         }
         return minimum(node.left);
     }
@@ -197,12 +197,12 @@ public class BST<E extends Comparable<E>> {
         if (size == 0) {
             throw new IllegalArgumentException("BST is empty");
         }
-        return maximum(root);
+        return maximum(root).e;
     }
 
-    private E maximum(Node node) {
+    private Node maximum(Node node) {
         if (node.right == null) {
-            return node.e;
+            return node;
         }
         return maximum(node.right);
     }
@@ -254,6 +254,53 @@ public class BST<E extends Comparable<E>> {
 
         node.right = removeMax(node.right);
         return node;
+    }
+
+    private void remove(E e) {
+        remove(root, e);
+    }
+
+    /**
+     * 删除以 node 为根的,值为e的节点
+     * 返回删除节点后新的 二分搜索树的根
+     */
+    private Node remove(Node node, E e) {
+        if (node == null) {
+            return null;
+        }
+        int compareResult = e.compareTo(node.e);
+        if (compareResult < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (compareResult > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        } else { // 值相等 进行删除逻辑
+            if (node.left == null) { // 只有右孩子的节点
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+            }
+
+            if (node.right == null) { // 只有左孩子的节点
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+            }
+
+            // 左右孩子都不为空
+            // 找到并待删除大的最小的节点
+            // 使用该节点 替换待删除的节点
+            Node rightMin = minimum(node.right);
+            rightMin.left = node.left;
+            rightMin.right = removeMin(node.right);
+            node.left = null;
+            node.right = null;
+            return rightMin;
+
+        }
     }
 
     @Override
