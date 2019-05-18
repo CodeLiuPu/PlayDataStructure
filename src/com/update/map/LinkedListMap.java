@@ -29,8 +29,25 @@ public class LinkedListMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public void remove(K key) {
+    public V remove(K key) {
+        Node node = dummyHead;
 
+        while (node.next != null) {
+            if (node.next.key.equals(key)) {
+                break;
+            }
+            node = node.next;
+        }
+
+        if (node.next != null) {
+            // node.next = node.next.next;
+            Node delNode = node.next;
+            node.next = delNode.next;
+            delNode.next = null;
+            size--;
+            return delNode.value;
+        }
+        return null;
     }
 
     @Override
