@@ -6,9 +6,22 @@ package com.update.map;
  * desc :
  */
 public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
+    private Node root;
+    private int size;
+
+    public BSTMap() {
+        root = null;
+        size = 0;
+    }
+
     @Override
     public void add(K key, V value) {
+        root = add(root,key,value);
+    }
 
+    private Node add(Node node, K key, V value) {
+
+        return null;
     }
 
     @Override
@@ -33,12 +46,12 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     private class Node {
