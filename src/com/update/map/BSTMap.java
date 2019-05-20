@@ -14,6 +14,16 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
         size = 0;
     }
 
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     /**
      * 向二分搜索树中添加新的元素(key, value)
      */
@@ -28,6 +38,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     private Node add(Node node, K key, V value) {
         if (node == null) {
+            size++;
             return new Node(key, value);
         }
         int compareResult = key.compareTo(node.key);
@@ -84,14 +95,30 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
         }
     }
 
-    @Override
-    public int getSize() {
-        return size;
+    /**
+     * 返回以node为根的二分搜索树的最小值所在的节点
+     */
+    private Node minimum(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return minimum(node.left);
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
+    /**
+     * 删除掉以node为根的二分搜索树中的最小节点
+     * 返回删除节点后新的二分搜索树的根
+     */
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node right = node.right;
+            node.right = null;
+            size--;
+            return right;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
     }
 
     private class Node {
