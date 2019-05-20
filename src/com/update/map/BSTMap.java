@@ -54,6 +54,23 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
     }
 
+    /**
+     * 返回以node为根节点的二分搜索树中，key所在的节点
+     */
+    private Node getNode(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+        int compareResult = key.compareTo(node.key);
+        if (compareResult < 0) {
+            return getNode(node.left, key);
+        } else if (compareResult > 0) {
+            return getNode(node.right, key);
+        } else {
+            return node;
+        }
+    }
+
     @Override
     public int getSize() {
         return size;
