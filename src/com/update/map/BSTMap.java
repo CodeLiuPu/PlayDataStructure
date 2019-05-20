@@ -53,11 +53,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
     }
 
     @Override
-    public V remove(K key) {
-        return null;
-    }
-
-    @Override
     public boolean contains(K key) {
         return getNode(root, key) != null;
     }
@@ -119,6 +114,55 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
         node.left = removeMin(node.left);
         return node;
+    }
+
+    @Override
+    public V remove(K key) {
+        Node node = getNode(root, key);
+        if (node != null) {
+            root = remove(root, key);
+            return node.value;
+        }
+        return null;
+    }
+
+    private Node remove(Node node, K key) {
+
+        if (node == null) {
+            return null;
+        }
+
+        int compareResult = key.compareTo(node.key);
+
+        if (compareResult < 0) {
+            node.left = remove(node.left, key);
+            return node;
+        } else if (compareResult > 0) {
+            node.right = remove(node.right, key);
+            return node;
+        } else {
+            if (node.left == null) {
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+
+            }
+
+            if (node.right == null) {
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+            }
+
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+            node.left = null;
+            node.right = null;
+            return successor;
+        }
     }
 
     private class Node {
