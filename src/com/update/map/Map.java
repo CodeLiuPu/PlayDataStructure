@@ -17,7 +17,7 @@ public interface Map<K, V> {
 
     V get(K key);
 
-    void set(K key, V newVaule);
+    void set(K key, V newValue);
 
     int getSize();
 
