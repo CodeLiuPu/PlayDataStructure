@@ -16,12 +16,22 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
     @Override
     public void add(K key, V value) {
-        root = add(root,key,value);
+        root = add(root, key, value);
     }
 
     private Node add(Node node, K key, V value) {
-
-        return null;
+        if (node == null) {
+            return new Node(key, value);
+        }
+        int compareResult = key.compareTo(node.key);
+        if (compareResult < 0) {
+            node.left = add(node.left, key, value);
+        } else if (compareResult > 0) {
+            node.right = add(node.right, key, value);
+        } else {
+            node.value = value;
+        }
+        return node;
     }
 
     @Override
