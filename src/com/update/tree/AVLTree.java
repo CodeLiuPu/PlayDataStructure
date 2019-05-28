@@ -3,7 +3,8 @@ package com.update.tree;
 /**
  * @author : liupu
  * date   : 2019/5/22
- * desc   :
+ * desc   : 任意一个节点,左子树和右子树的高度差不能超过1
+ * 平衡因子 : 左右子节点的高度差的绝对值
  */
 public class AVLTree<K extends Comparable<K>, V> {
     private Node root;
@@ -30,6 +31,15 @@ public class AVLTree<K extends Comparable<K>, V> {
             return 0;
         }
         return node.height;
+    }
+
+    public void add(K key, V value) {
+        root = add(root, key, value);
+    }
+
+    private Node add(Node node, K key, V value) {
+
+        return null;
     }
 
     private class Node {
