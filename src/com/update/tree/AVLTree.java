@@ -96,6 +96,14 @@ public class AVLTree<K extends Comparable<K>, V> {
         return node == null ? null : node.value;
     }
 
+    public void set(K key, V newValue) {
+        Node node = getNode(root, key);
+        if (node == null){
+            throw new IllegalArgumentException(key + " doesn't exist!");
+        }
+        node.value = newValue;
+    }
+
     private class Node {
         public K key;
         public V value;
