@@ -1,10 +1,14 @@
 package com.update.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : liupu
  * date   : 2019/5/22
- * desc   : 任意一个节点,左子树和右子树的高度差不能超过1
- * 平衡因子 : 左右子节点的高度差的绝对值
+ * desc   : 平衡二叉树
+ * 平衡二叉树 : 任意一个节点,左子树和右子树的高度差不能超过1
+ * 平衡因子 : 左子树高度减去右子树高度
  */
 public class AVLTree<K extends Comparable<K>, V> {
     private Node root;
@@ -17,6 +21,31 @@ public class AVLTree<K extends Comparable<K>, V> {
 
     public int getSize() {
         return size;
+    }
+
+    /**
+     * 是否为二分搜索树
+     */
+    public boolean isBST() {
+        // 中序遍历 判断是否key有序
+        List<K> keys = new ArrayList<>();
+        inOrder(root, keys);
+        for (int i = 0; i < keys.size() - 1; i++) {
+            if (keys.get(i).compareTo(keys.get(i + 1)) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void inOrder(Node node, List<K> keys) {
+
+        if (node == null) {
+            return;
+        }
+        inOrder(node.left, keys);
+        keys.add(node.key);
+        inOrder(node.right, keys);
     }
 
     public boolean isEmpty() {
@@ -37,7 +66,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         if (node == null) {
             return 0;
         }
-        return Math.abs(getHeight(node.left) - getHeight(node.right));
+        return getHeight(node.left) - getHeight(node.right);
     }
 
     public void add(K key, V value) {
@@ -64,7 +93,7 @@ public class AVLTree<K extends Comparable<K>, V> {
 
         // 计算平衡因子
         int balanceFactor = getBalanceFactor(node);
-        if (balanceFactor > 1) {
+        if (Math.abs(balanceFactor) > 1) {
             System.out.println("unbalance : " + balanceFactor);
         }
         return node;
@@ -98,7 +127,7 @@ public class AVLTree<K extends Comparable<K>, V> {
 
     public void set(K key, V newValue) {
         Node node = getNode(root, key);
-        if (node == null){
+        if (node == null) {
             throw new IllegalArgumentException(key + " doesn't exist!");
         }
         node.value = newValue;
