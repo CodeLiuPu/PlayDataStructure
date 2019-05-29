@@ -91,6 +91,11 @@ public class AVLTree<K extends Comparable<K>, V> {
         return getNode(root, key) != null;
     }
 
+    public V get(K key) {
+        Node node = getNode(root, key);
+        return node == null ? null : node.value;
+    }
+
     private class Node {
         public K key;
         public V value;
