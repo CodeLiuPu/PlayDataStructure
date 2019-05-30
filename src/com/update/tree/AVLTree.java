@@ -155,6 +155,89 @@ public class AVLTree<K extends Comparable<K>, V> {
         node.value = newValue;
     }
 
+    /**
+     * 获取最小元素
+     */
+    private Node minimum(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return minimum(node.left);
+    }
+
+    /**
+     * 获取最大元素
+     */
+    private Node maximum(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return maximum(node.right);
+    }
+
+    /**
+     * 删除掉以node为根的二分搜索树中的最小节点
+     * 返回删除节点后新的二分搜索树的根
+     */
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node right = node.right;
+            node.right = null;
+            size--;
+            return right;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+
+    public void remove(K key) {
+        remove(root, key);
+    }
+
+    /**
+     * 删除以 node 为根的,值为e的节点
+     * 返回删除节点后新的 二分搜索树的根
+     */
+    private Node remove(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+        int compareResult = key.compareTo(node.key);
+        if (compareResult < 0) {
+            node.left = remove(node.left, key);
+            return node;
+        } else if (compareResult > 0) {
+            node.right = remove(node.right, key);
+            return node;
+        } else { // 值相等 进行删除逻辑
+            if (node.left == null) { // 只有右孩子的节点
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+            }
+
+            if (node.right == null) { // 只有左孩子的节点
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+            }
+
+            // 左右孩子都不为空
+            // 找到并待删除大的最小的节点
+            // 使用该节点 替换待删除的节点
+            Node rightMin = minimum(node.right);
+            rightMin.left = node.left;
+            rightMin.right = removeMin(node.right);
+            node.left = null;
+            node.right = null;
+            return rightMin;
+
+        }
+    }
+
     private class Node {
         public K key;
         public V value;
