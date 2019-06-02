@@ -313,38 +313,112 @@ public class AVLTree<K extends Comparable<K>, V> {
             return null;
         }
         int compareResult = key.compareTo(node.key);
+        Node retNode;
         if (compareResult < 0) {
             node.left = remove(node.left, key);
-            return node;
+            retNode = node;
         } else if (compareResult > 0) {
             node.right = remove(node.right, key);
-            return node;
+            retNode = node;
         } else { // 值相等 进行删除逻辑
             if (node.left == null) { // 只有右孩子的节点
                 Node right = node.right;
                 node.right = null;
                 size--;
-                return right;
-            }
-
-            if (node.right == null) { // 只有左孩子的节点
+                retNode = right;
+            } else if (node.right == null) { // 只有左孩子的节点
                 Node left = node.left;
                 node.left = null;
                 size--;
-                return left;
+                retNode = left;
+            } else {
+                // 左右孩子都不为空
+                // 找到并待删除大的最小的节点
+                // 使用该节点 替换待删除的节点
+                Node rightMin = minimum(node.right);
+                rightMin.left = node.left;
+                rightMin.right = remove(node.right, rightMin.key);
+                node.left = null;
+                node.right = null;
+                retNode = rightMin;
             }
-
-            // 左右孩子都不为空
-            // 找到并待删除大的最小的节点
-            // 使用该节点 替换待删除的节点
-            Node rightMin = minimum(node.right);
-            rightMin.left = node.left;
-            rightMin.right = removeMin(node.right);
-            node.left = null;
-            node.right = null;
-            return rightMin;
-
         }
+
+        if (retNode == null){
+            return null;
+        }
+
+        // 更新 height
+        retNode.height = 1 + Math.max(getHeight(retNode.left), getHeight(retNode.right));
+
+        // 计算平衡因子
+        int balanceFactor = getBalanceFactor(retNode);
+        if (Math.abs(balanceFactor) > 1) {
+            System.out.println("unbalance : " + balanceFactor);
+        }
+
+        /**
+         * (LL)
+         * 对节点进行右旋转,返回新的根节点x
+         * //        y                              x
+         * //       / \                           /   \
+         * //      x   T4     向右旋转 (y)        z     y
+         * //     / \       - - - - - - - ->    / \   / \
+         * //    z   T3                       T1  T2 T3 T4
+         * //   / \
+         * // T1   T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(retNode.left) >= 0) {
+            return rightRotate(retNode);
+        }
+
+        /**
+         * (RR)
+         * //     y                             x
+         * //   /  \                          /   \
+         * //  T1   x      向左旋转 (y)       y     z
+         * //      / \   - - - - - - - ->   / \   / \
+         * //    T2  z                     T1 T2 T3 T4
+         * //       / \
+         * //      T3 T4
+         */
+        if (balanceFactor < -1 && getBalanceFactor(retNode.right) <= 0) {
+            return leftRotate(retNode);
+        }
+
+        /**
+         * (LR)
+         * 对节点进行右旋转,返回新的根节点x
+         * //        y                              y
+         * //       / \                            / \
+         * //      x   T4     向左旋转 (x)         z   T4
+         * //     / \       - - - - - - - ->    / \
+         * //    T1  z                         x  T3
+         * //       / \                       / \
+         * //      T2 T3                     T1 T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(retNode.left) < 0) {
+            retNode.left = leftRotate(retNode.left);
+            return rightRotate(retNode);
+        }
+
+        /**
+         * (RL)
+         * //     y                             y
+         * //   /  \                          /  \
+         * //  T1   x      向右旋转 (x)       T1   z
+         * //      / \   - - - - - - - ->        / \
+         * //     z  T4                         T2  x
+         * //    / \                               / \
+         * //   T2 T3                             T3 T4
+         */
+        if (balanceFactor < -1 && getBalanceFactor(retNode.right) > 0) {
+            retNode.right = rightRotate(retNode.right);
+            return leftRotate(retNode);
+        }
+
+        return retNode;
+
     }
 
     private class Node {
