@@ -30,6 +30,16 @@ public class RBTree<K extends Comparable<K>, V> {
         return size == 0;
     }
 
+    /**
+     * 判断节点的颜色
+     */
+    public boolean isRed(Node node) {
+        if (node == null) {
+            return BLACK;
+        }
+        return node.color;
+    }
+
     private class Node {
         public K key;
         public V value;
