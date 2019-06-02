@@ -300,8 +300,13 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
 
-    public void remove(K key) {
-        remove(root, key);
+    public V remove(K key) {
+        Node node = getNode(root, key);
+        if (node != null) {
+            root = remove(root, key);
+            return node.value;
+        }
+        return null;
     }
 
     /**
@@ -344,7 +349,7 @@ public class AVLTree<K extends Comparable<K>, V> {
             }
         }
 
-        if (retNode == null){
+        if (retNode == null) {
             return null;
         }
 
