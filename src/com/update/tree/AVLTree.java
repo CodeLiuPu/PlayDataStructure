@@ -91,6 +91,54 @@ public class AVLTree<K extends Comparable<K>, V> {
         return getHeight(node.left) - getHeight(node.right);
     }
 
+    /**
+     * (LL)
+     * 对节点进行右旋转,返回新的根节点x
+     * //        y                              x
+     * //       / \                           /   \
+     * //      x   T4     向右旋转 (y)        z     y
+     * //     / \       - - - - - - - ->    / \   / \
+     * //    z   T3                       T1  T2 T3 T4
+     * //   / \
+     * // T1   T2
+     */
+    private Node rightRotate(Node y) {
+        Node x = y.left;
+        Node T3 = x.right;
+        x.right = y;
+        y.left = T3;
+
+        // 更新height
+        // 更新x 和 y就可以了
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
+    }
+
+    /**
+     * (RR)
+     * 对节点y进行向左旋转操作，返回旋转后新的根节点x
+     * //     y                             x
+     * //   /  \                          /   \
+     * //  T1   x      向左旋转 (y)       y     z
+     * //      / \   - - - - - - - ->   / \   / \
+     * //    T2  z                     T1 T2 T3 T4
+     * //       / \
+     * //      T3 T4
+     */
+    private Node leftRotate(Node y) {
+        Node x = y.right;
+        Node T2 = x.left;
+        y.right = T2;
+        x.left = y;
+
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
+    }
+
     public void add(K key, V value) {
         root = add(root, key, value);
     }
@@ -118,6 +166,67 @@ public class AVLTree<K extends Comparable<K>, V> {
         if (Math.abs(balanceFactor) > 1) {
             System.out.println("unbalance : " + balanceFactor);
         }
+
+        /**
+         * (LL)
+         * 对节点进行右旋转,返回新的根节点x
+         * //        y                              x
+         * //       / \                           /   \
+         * //      x   T4     向右旋转 (y)        z     y
+         * //     / \       - - - - - - - ->    / \   / \
+         * //    z   T3                       T1  T2 T3 T4
+         * //   / \
+         * // T1   T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
+            return rightRotate(node);
+        }
+
+        /**
+         * (RR)
+         * //     y                             x
+         * //   /  \                          /   \
+         * //  T1   x      向左旋转 (y)       y     z
+         * //      / \   - - - - - - - ->   / \   / \
+         * //    T2  z                     T1 T2 T3 T4
+         * //       / \
+         * //      T3 T4
+         */
+        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        /**
+         * (LR)
+         * 对节点进行右旋转,返回新的根节点x
+         * //        y                              y
+         * //       / \                            / \
+         * //      x   T4     向左旋转 (x)         z   T4
+         * //     / \       - - - - - - - ->    / \
+         * //    T1  z                         x  T3
+         * //       / \                       / \
+         * //      T2 T3                     T1 T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        /**
+         * (RL)
+         * //     y                             y
+         * //   /  \                           / \
+         * //  T1   x      向右旋转 (x)        T1  z
+         * //      / \   - - - - - - - ->        /  \
+         * //     z  T4                         T2  x
+         * //    / \                               / \
+         * //   T2 T3                             T3 T4
+         */
+        if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
         return node;
     }
 
