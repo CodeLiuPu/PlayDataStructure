@@ -40,6 +40,28 @@ public class RBTree<K extends Comparable<K>, V> {
         return node.color;
     }
 
+    /**
+     * //   node                     x
+     * //  /   \     左旋转         /  \
+     * // T1   x   --------->   node   T3
+     * //     / \              /   \
+     * //    T2 T3            T1   T2
+     */
+    private Node leftRotate(Node node) {
+        Node x = node.right;
+
+        // 左旋转
+        Node T2 = x.left;
+        x.left = node;
+        node.right = T2;
+        
+        // 维护颜色
+        x.color = node.color;
+        node.color = RED;
+
+        return x;
+    }
+
     private class Node {
         public K key;
         public V value;
