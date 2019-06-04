@@ -15,6 +15,17 @@ import java.util.TreeMap;
  */
 public class HashTable<K, V> {
 
+    /**
+     * 平均每个地址承载的元素多过一定程度, 即扩容
+     * N / M <= upperTol
+     */
+    private static final int upperTol = 10;
+
+    /**
+     * 平均每个地址承载的元素少过一定程度, 即缩容
+     * N / M < lowerTol && M > initCapacity
+     */
+    private static final int lowerTol = 2;
     private static final int initCapacity = 7;
 
     private TreeMap<K, V>[] data;
@@ -50,6 +61,10 @@ public class HashTable<K, V> {
         } else {
             map.put(key, value);
             size++;
+
+            if (size >= upperTol * M) {
+                resize(M * 2);
+            }
         }
     }
 
@@ -59,6 +74,10 @@ public class HashTable<K, V> {
         if (map.containsKey(key)) {
             ret = map.remove(key);
             size--;
+
+            if (size < lowerTol * M && M / 2 >= initCapacity) {
+                resize(M / 2);
+            }
         }
         return ret;
     }
@@ -81,4 +100,21 @@ public class HashTable<K, V> {
         return map.get(key);
     }
 
+    private void resize(int newM) {
+        TreeMap<K, V>[] newData = new TreeMap[newM];
+        for (int i = 0; i < newM; i++) {
+            newData[i] = new TreeMap<>();
+        }
+
+        int oldM = M; // 保存 oldM 用于下面循环使用
+        this.M = newM;// 因为要调用 hash() 所以先设置M为新的
+
+        for (int i = 0; i < oldM; i++) {
+            for (K key : data[i].keySet()) {
+                TreeMap<K, V> temp = newData[hash(key)];
+                temp.put(key, data[i].get(key));
+            }
+        }
+        this.data = newData;
+    }
 }
