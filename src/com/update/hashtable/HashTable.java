@@ -39,4 +39,27 @@ public class HashTable<K, V> {
         return (key.hashCode() & 0x7fffffff) % M;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void add(K key, V value) {
+        TreeMap<K, V> map = data[hash(key)];
+        if (map.containsKey(key)) {
+            map.put(key, value);
+        } else {
+            map.put(key, value);
+            size++;
+        }
+    }
+
+    public V remove(K key) {
+        TreeMap<K, V> map = data[hash(key)];
+        V ret = null;
+        if (map.containsKey(key)) {
+            ret = map.remove(key);
+            size--;
+        }
+        return ret;
+    }
 }
