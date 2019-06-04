@@ -70,4 +70,15 @@ public class HashTable<K, V> {
         }
         map.put(key, value);
     }
+
+    public boolean contains(K key) {
+        TreeMap<K, V> map = data[hash(key)];
+        return map.containsKey(key);
+    }
+
+    public V get(K key) {
+        TreeMap<K, V> map = data[hash(key)];
+        return map.get(key);
+    }
+
 }
